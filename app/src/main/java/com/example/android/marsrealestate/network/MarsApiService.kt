@@ -19,7 +19,6 @@ package com.example.android.marsrealestate.network
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
@@ -40,7 +39,7 @@ private val moshi = Moshi.Builder()
  */
 private val retrofit = Retrofit.Builder()
         .addConverterFactory(MoshiConverterFactory.create(moshi))
-        // TODO (02) Use .addCallAdapterFactory to add the CoroutineCallAdapterFactory
+
         .baseUrl(BASE_URL)
         .build()
 
@@ -54,13 +53,12 @@ interface MarsApiService {
      * HTTP method
      */
     @GET("realestate")
-    fun getProperties(): Call<List<MarsProperty>>
-    // TODO (03) Change the return type from our getProperties call to Deferred
+    fun getProperties(): List<MarsProperty>
 }
 
 /**
  * A public Api object that exposes the lazy-initialized Retrofit service
  */
 object MarsApi {
-    val retrofitService : MarsApiService by lazy { retrofit.create(MarsApiService::class.java) }
+    val retrofitService: MarsApiService by lazy { retrofit.create(MarsApiService::class.java) }
 }
