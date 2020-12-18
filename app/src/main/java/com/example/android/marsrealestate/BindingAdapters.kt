@@ -17,6 +17,7 @@
 
 package com.example.android.marsrealestate
 
+import android.view.View
 import android.widget.ImageView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
@@ -24,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.android.marsrealestate.network.MarsProperty
+import com.example.android.marsrealestate.overview.OverviewViewModel
 import com.example.android.marsrealestate.overview.PhotoGridAdapter
 
 /**
@@ -51,4 +53,19 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
     }
 }
 
-// TODO (04) Add the binding adapter to show the MarsApi status in the ImageView and show/hide the view
+@BindingAdapter("marsApiStatus")
+fun bindStatus(statusImageView: ImageView, status: OverviewViewModel.MarsApiStatus?) {
+    when (status) {
+        OverviewViewModel.MarsApiStatus.LOADING -> {
+            statusImageView.visibility = View.VISIBLE
+            statusImageView.setImageResource(R.drawable.loading_animation)
+        }
+        OverviewViewModel.MarsApiStatus.ERROR -> {
+            statusImageView.visibility = View.VISIBLE
+            statusImageView.setImageResource(R.drawable.ic_connection_error)
+        }
+        OverviewViewModel.MarsApiStatus.DONE -> {
+            statusImageView.visibility = View.GONE
+        }
+    }
+}
